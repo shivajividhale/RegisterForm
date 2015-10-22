@@ -61,7 +61,21 @@ function checkAge(age){
             error += 'Please enter a valid age\n';
     }
 }
-
+function validatePassword(password){
+    console.log(password)
+    if(password===undefined || password===null){
+        return false
+    }
+    if(password.length < 6 || password.length >20){
+        return false
+    }
+    else if(password.match(/([a-z])/gi)===null||password.match(/([0-9])/gi)===null){
+        return false
+    }
+    else{
+        return true
+    }
+}
 app.post('/register',function(req, res){
    console.log("Entered post register");
     console.log(req.body) ;
