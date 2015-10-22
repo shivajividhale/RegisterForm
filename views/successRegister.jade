@@ -8,7 +8,8 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
   body
     .container
-      h3 Register
+      .jumbotron
+        h3 Register
       #success.alert.alert-success(role='alert')
         p
           "SUCCESS! Thank you for signinig up"
@@ -47,7 +48,7 @@ html
                 .form-group
                   label.col-md-3.control-label(for='password') Confirm Password
                   .col-md-9
-                    input.form-control(type='cpassword', name='cpassword', placeholder='Password')
+                    input.form-control(type='password', name='cpassword', placeholder='Password')
                 .form-group
                   // Button
                   .col-md-offset-3.col-md-9

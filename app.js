@@ -17,6 +17,8 @@ var User = mongoose.model('User', new Schema({
     lastName: String,
     email: {type: String, unique: true},
     password: String,
+    confirmPassword: String,
+    age: Number,
 }));
 
 app.engine('html', require('ejs').renderFile);
@@ -35,10 +37,7 @@ app.get('/',function(req, res){
 });
 
 function checkStringLength(a){
-    //console.log(a);
-    //if(a == undefined)
-    //    return false;
-    if (a.length <= 0)
+    if (a.length == 0)
         error += 'Please enter a value in the required field\n';
 }
 
@@ -52,23 +51,45 @@ function validateString(a){
     checkSpecialCharacters(a);
 }
 
+function checkAge(age){
+    if(isNaN(age))
+        error += 'Please enter numeric values\n';
+    else{
+        if(age <=0 || age > 200)
+            error += 'Please enter a valid age\n';
+    }
+}
+
+function validatePassword(password1, password2){
+    if(password1===undefined || password1===null)
+        error += 'Please enter password\n';
+    if(password1.length < 6 || password1.length >20)
+        error += 'Password should be between 6 and 20 characters\n'
+    else if(password1.match(/([a-z])/gi)===null||password1.match(/([0-9])/gi)===null)
+        error += 'Password should contain atleast one character and one number\n';
+    if(password1 != password2)
+        error += 'Passwords do not match\n';
+}
+
 app.post('/register',function(req, res){
-    console.log(req.body) ;
     var user = new User({
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        age: req.body.age,
+        confirmPassword: req.body.cpassword
     });
 
     validateString(user.firstName);
     validateString(user.lastName);
+    checkAge(user.age);
+    validatePassword(user.password, user.confirmPassword);
     if(error.length > 0)
     {
         console.log(error);
         res.render("errorRegister.jade",{message: error});
         error = "";
-        //$("#danger").attr("visibility", "visible");
     }
     else
     {
