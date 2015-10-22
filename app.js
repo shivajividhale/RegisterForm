@@ -17,6 +17,7 @@ var User = mongoose.model('User', new Schema({
     lastName: String,
     email: {type: String, unique: true},
     password: String,
+    age: Number,
 }));
 
 app.engine('html', require('ejs').renderFile);
@@ -52,6 +53,15 @@ function validateString(a){
     checkSpecialCharacters(a);
 }
 
+function checkAge(age){
+    if(isNaN(age))
+        error += 'Please enter numeric values\n';
+    else{
+        if(age <=0 || age > 200)
+            error += 'Please enter a valid age\n';
+    }
+}
+
 app.post('/register',function(req, res){
    console.log("Entered post register");
     console.log(req.body) ;
@@ -59,12 +69,16 @@ app.post('/register',function(req, res){
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        age: req.body.age
     });
 
     validateString(user.firstName);
     validateString(user.lastName);
-    if(error.length > 0)
+    checkAge(user.age);
+    if(error.length > 0){
         console.log(error);
+        error = '';
+    }
 });
 app.listen(process.env.PORT || 3000);
