@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var session = require('client-sessions');
+var error = '';
 //mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/registerForm');
 
 var User = mongoose.model('User', new Schema({
@@ -33,12 +34,22 @@ app.get('/',function(req, res){
     res.render('register.jade');
 });
 
-function validateString(a){
-    console.log(a);
-    if(a == undefined)
-        return false;
+function checkStringLength(a){
+    //console.log(a);
+    //if(a == undefined)
+    //    return false;
     if (a.length <= 0)
-        return false;
+        error += 'Please enter a value in the required field\n';
+}
+
+function checkSpecialCharacters(a){
+        if(a.match(/[_\W0-9]/))
+            error += 'String contains invalid characters\n';
+}
+
+function validateString(a){
+    checkStringLength(a);
+    checkSpecialCharacters(a);
 }
 
 app.post('/register',function(req, res){
@@ -50,8 +61,12 @@ app.post('/register',function(req, res){
         email: req.body.email,
         password: req.body.password
     });
-    if(!validateString(user.firstname))
-        console.log('invalid name');
+    //if(!validateString(user.firstName))
+    //    console.log('invalid name');
+    validateString(user.firstName);
+    validateString(user.lastName);
+    if(error.length > 0)
+        console.log(error);
 
     /*user.save(function(err){
         if (err){
