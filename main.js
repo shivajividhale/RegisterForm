@@ -10,7 +10,6 @@ var options = {
 var faker = require("faker");
 var fs = require("fs");
 faker.locale = "en";
-var mock = require('mock-fs');
 var _ = require('underscore');
 var Random = require('random-js');
 
@@ -18,7 +17,7 @@ function main() {
 	var args = process.argv.slice(2);
 
 	if (args.length == 0) {
-		args = ["subject.js"];
+		args = ["app.js"];
 	}
 	var filePath = args[0];
 
@@ -51,7 +50,7 @@ var functionConstraints = {}
 
 function generateTestCases() {
 
-	var content = "var subject = require('./subject.js')\nvar mock = require('mock-fs');\n";
+	var content = "var app = require('./app.js')\n";
 	for (var funcName in functionConstraints) {
 		var params = {};
 
@@ -97,7 +96,7 @@ function generateTestCases() {
 		//var args = Object.keys(params).map( function(k) {return (typeof params[k] == 'string')?"'"+params[k]+"'":params[k] }).join(",");
 		for (var j = 0; j < argsList.length; j++) {
 			var args = argsList[j]
-			content += "subject.{0}({1});\n".format(funcName, args);
+			content += "app.{0}({1});\n".format(funcName, args);
 		}
 
 	}
@@ -128,17 +127,18 @@ function constraints(filePath) {
 			// Check for expressions using argument.
 			traverse(node, function(child) {
 				if (child.type === 'BinaryExpression') {
-					if (child.left.type == 'Identifier' && params.indexOf(child.left.name) > -1) {
-						// get expression from original source code:
-						var expression = buf.substring(child.range[0], child.range[1]);
+					var expression = buf.substring(child.range[0], child.range[1]);
 						var rightHand = buf.substring(child.right.range[0], child.right.range[1])
 						if (child.right.type == 'Literal') {
 							rightHand = child.right.raw
 						}
 						var incorrect = "\"\""
+
+					if (child.left.type == 'Identifier' && params.indexOf(child.left.name) > -1) {
+						// get expression from original source code:
 						switch (child.operator) {
 							case '==': //do nothing to rightHand
-							case '===':incorrect  = chance.string()
+							case '===':incorrect  = '\''+chance.string()+'\''
 								break
 							case '>':
 								incorrect = rightHand - 10
@@ -151,7 +151,6 @@ function constraints(filePath) {
 							default:
 								return
 						}
-
 						functionConstraints[funcName].constraints.push(
 							new Constraint({
 								ident: child.left.name,
@@ -170,6 +169,43 @@ function constraints(filePath) {
 								operator: child.operator,
 								expression: expression
 							}));
+					}
+					else if(child.left.type==='MemberExpression' && params.indexOf(child.left.object.name)>-1){
+						if(child.left.property.type==='length'){
+								switch (child.operator) {
+							case '==': //do nothing to rightHand
+							case '===':incorrect  = rightHand+1
+								break
+							case '>':
+								incorrect = rightHand - 1
+								rightHand++
+								break
+							case '<':
+								incorrect = rightHand + 1
+								rightHand--
+								break
+							default:
+								return
+						}
+						functionConstraints[funcName].constraints.push(
+							new Constraint({
+								ident: child.left.object.name,
+								value: '\''+chance.string({length: incorrect})+'\'',
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							}));
+						functionConstraints[funcName].constraints.push(
+							new Constraint({
+								ident: child.left.object.name,
+								value: '\''+chance.string({length: rightHand})+'\'',
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							}));
+						}
 					}
 				}
 				if (child.type == "CallExpression" &&

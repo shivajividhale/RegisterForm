@@ -63,7 +63,7 @@ function checkAge(age){
 function validatePassword(password1, password2){
     if(password1===undefined || password1===null)
         error += 'Please enter password\n';
-    if(password1.length < 6 || password1.length >20)
+    else if(password1.length < 6 || password1.length >20)
         error += 'Password should be between 6 and 20 characters\n'
     else if(password1.match(/([a-z])/gi)===null||password1.match(/([0-9])/gi)===null)
         error += 'Password should contain atleast one character and one number\n';
@@ -96,4 +96,10 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
-app.listen(process.env.PORT || 3000);
+//app.listen(process.env.PORT || 3000);
+exports.checkStringLength = checkStringLength;
+exports.checkSpecialCharacters=checkSpecialCharacters;
+exports.validateString=validateString;
+exports.checkAge=checkAge;
+exports.validatePassword=validatePassword;
+
