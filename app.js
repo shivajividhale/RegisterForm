@@ -64,7 +64,7 @@ app.post('/register',function(req, res){
             //sendgrid.send(email);
             console.log("email sent");
             console.log("Added user");
-                res.redirect('/');
+                res.render('thanks.html');
             }
     });
 });
