@@ -28,7 +28,7 @@
     "node-gyp": "^3.0.3",
     "random-js": "^1.0.5",
     "underscore": "^1.7.0",
-    "simplesets":"*"
+    "chance": "*"
   },
   "engines": {
     "node": "0.12.*"
