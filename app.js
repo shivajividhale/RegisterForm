@@ -1,5 +1,5 @@
 /**
- * Created by Shivaji, Arjun and Kunal on 10/10/2015.
+ * Created by Shivaji, Sushil and Abidaan.
  */
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var session = require('client-sessions');
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/teamup');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/registerForm');
 
 var User = mongoose.model('User', new Schema({
     id: ObjectId,
@@ -30,105 +30,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/',function(req, res){
-    res.render('signin.jade');
-});
-app.get('/register',function(req, res){
     res.render('register.jade');
-    console.log("entered register")
-});
-
-app.get('/eventDetails',function(req,res){
-    var id = req.query.eventId;
-    var userid = req.session.user._id;
-
-});
-
-app.post('/createEvent',function(req, res){
-    var event = new Event({
-        name: req.body.name,
-        location : req.body.location,
-        teamSize : req.body.teamSize,
-        date : req.body.date
-    });
-    event.save(function (err, events) {
-        if(err) {
-            console.log("error", err);
-            res.redirect('createEventForm');
-        }
-        else {
-            console.log("Saved!");
-            Event.find({}, function (err, events) {
-                console.log(events);
-                res.render('index.jade', { events : events });
-            });
-        }
-    });
-});
-
-app.get('/createEventForm',function(req, res){
-    res.render('createEvent.html');
-    console.log("entered register")
-});
-
-
-app.get('/dashboard',function(req,res){
-   if(req.session && req.session.user){
-       User.findOne({email: req.session.user.email}, function(err, user){
-           if (!user){
-               req.session.reset();
-               res.render('signin.jade');
-           }
-           else {
-            Event.find({}, function (err, events) {
-                    if(events) {
-                        res.locals.user = user;
-                        res.render('index.jade', { events : events });
-                    }
-                    else {
-
-                        res.render('index.jade', { events : ['null', 'null2'] });
-                    }
-                });
-           }
-
-       })
-   }
-    else{
-               res.render('signin.jade');
-   }
-//Session set when user Request our app via URL
-    //console.log(sess);
-
-})
-
-app.post('/login',function(req,res){
-    console.log("Entered login get"+ req.body.username);
-	if(req.body.username){
-
-		User.findOne({email: req.body.username}, function(err, user){
-			console.log("findOne callback"+ user);
-			if(!user){
-				console.log("No user");
-				res.render('signin.jade',{error: "Invalid username or password"});
-			}
-			else{
-				console.log("In else");
-				if(req.body.password === user.password){
-					console.log("Passwords match");
-					req.session.user = user;
-					res.redirect('/dashboard');
-				}
-				else {
-					console.log("Incorrect password");
-					res.render('signin.jade',{error: "Incorrect password"});
-				}
-			}
-		})
-	}
-	else{
-		console.log("Direct Access");
-		res.render('signin.jade',{error: "You need to login!"});
-	}
 });
 
 app.post('/register',function(req, res){
