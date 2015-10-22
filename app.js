@@ -31,7 +31,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/',function(req, res){
-    res.render('register.html');
+    res.render('register.jade');
 });
 
 function checkStringLength(a){
@@ -53,7 +53,6 @@ function validateString(a){
 }
 
 app.post('/register',function(req, res){
-   console.log("Entered post register");
     console.log(req.body) ;
     var user = new User({
         firstName: req.body.firstname,
@@ -65,6 +64,15 @@ app.post('/register',function(req, res){
     validateString(user.firstName);
     validateString(user.lastName);
     if(error.length > 0)
+    {
         console.log(error);
+        res.render("errorRegister.jade",{message: error});
+        error = "";
+        //$("#danger").attr("visibility", "visible");
+    }
+    else
+    {
+        res.render("successRegister.jade");
+    }
 });
 app.listen(process.env.PORT || 3000);

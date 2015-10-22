@@ -8,12 +8,10 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
   body
     .container
-      .jumbotron
-        h3 Register
-      #danger.alert.alert-danger(role='alert', style='visibility: hidden;')
+      h3 Register
+      #success.alert.alert-success(role='alert')
         p
-      #success.alert.alert-success(role='alert', style='visibility: hidden;')
-        p
+          "SUCCESS! Thank you for signinig up"
       #signupbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2(style='margin-top:50px')
         .panel.panel-info
           .panel-heading
