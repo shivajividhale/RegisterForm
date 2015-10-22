@@ -33,6 +33,14 @@ app.get('/',function(req, res){
     res.render('register.jade');
 });
 
+function validateString(a){
+    console.log(a);
+    if(a == undefined)
+        return false;
+    if (a.length <= 0)
+        return false;
+}
+
 app.post('/register',function(req, res){
    console.log("Entered post register");
     console.log(req.body) ;
@@ -42,8 +50,10 @@ app.post('/register',function(req, res){
         email: req.body.email,
         password: req.body.password
     });
+    if(!validateString(user.firstname))
+        console.log('invalid name');
 
-    user.save(function(err){
+    /*user.save(function(err){
         if (err){
             if(err.code == 11000){
                 var error = "Account with this emailID already exists";
@@ -66,6 +76,7 @@ app.post('/register',function(req, res){
             console.log("Added user");
                 res.render('thanks.html');
             }
-    });
+    });*/
+
 });
 app.listen(process.env.PORT || 3000);
