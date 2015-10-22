@@ -30,15 +30,16 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/',function(req, res){
-    res.render('register.jade');
+    res.render('register.html');
 });
 
 function validateString(a){
     console.log(a);
     if(a == undefined)
         return false;
-    if (a.length <= 0)
+    if(a.length <= 1)
         return false;
+    return true;
 }
 
 app.post('/register',function(req, res){
@@ -50,33 +51,11 @@ app.post('/register',function(req, res){
         email: req.body.email,
         password: req.body.password
     });
-    if(!validateString(user.firstname))
+    console.log(user.firstName);
+    if(validateString(user.firstName) == false)
         console.log('invalid name');
-
-    /*user.save(function(err){
-        if (err){
-            if(err.code == 11000){
-                var error = "Account with this emailID already exists";
-            }
-            else {var error = "Could not register user. Try again."}
-            res.render('register.jade',{error: error});
-        }
-        else {
-            // using SendGrid's Node.js Library - https://github.com/sendgrid/sendgrid-nodejs
-            var sendgrid = require("sendgrid")("shivajividhale", "battlehack2015");
-            var email = new sendgrid.Email();
-            var sendemail = req.body.email;
-            email.addTo(sendemail);
-            email.setFrom("savidhal@ncsu.edu");
-            email.setSubject("Knowledge is valuable");
-            email.setHtml("We are glad to have you on board");
-
-            //sendgrid.send(email);
-            console.log("email sent");
-            console.log("Added user");
-                res.render('thanks.html');
-            }
-    });*/
+    else
+        console.log("correct");
 
 });
 app.listen(process.env.PORT || 3000);
