@@ -7,6 +7,6 @@ var register = require("./app.js");
 describe("Check String Length", function() {
     it("checks the lenght of the sting", function(){
         var length1 = register.checkStringLength("Abc");
-        expect(length1).to.equal(0);
+        expect(length1).to.equal(1);
     });
 });
