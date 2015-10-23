@@ -3,3 +3,4 @@ test.js
 subject.js
 coverage/*
 .idea
+.DS_Store
