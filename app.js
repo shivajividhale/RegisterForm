@@ -37,8 +37,11 @@ app.get('/',function(req, res){
 });
 
 function checkStringLength(a){
-    if (a.length == 0)
+    if (a.length == 0){
         error += 'Please enter a value in the required field\n';
+        return 0;
+    }
+    return 1;
 }
 
 function checkSpecialCharacters(a){
