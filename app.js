@@ -99,6 +99,7 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
+//change
 //app.listen(process.env.PORT || 3000);
 exports.checkStringLength = checkStringLength;
 exports.checkSpecialCharacters=checkSpecialCharacters;
