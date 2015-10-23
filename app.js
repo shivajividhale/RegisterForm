@@ -18,7 +18,7 @@ var User = mongoose.model('User', new Schema({
     email: {type: String, unique: true},
     password: String,
     confirmPassword: String,
-    age: Number,
+    age: Number
 }));
 
 app.engine('html', require('ejs').renderFile);
