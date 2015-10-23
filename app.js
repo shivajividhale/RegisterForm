@@ -106,4 +106,3 @@ exports.checkSpecialCharacters=checkSpecialCharacters;
 exports.validateString=validateString;
 exports.checkAge=checkAge;
 exports.validatePassword=validatePassword;
-

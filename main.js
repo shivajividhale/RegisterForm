@@ -5,13 +5,16 @@ var options = {
 	tokens: true,
 	tolerant: true,
 	loc: true,
-	range: true
+	range: true,
+	comment: true
 };
 var faker = require("faker");
 var fs = require("fs");
 faker.locale = "en";
 var _ = require('underscore');
 var Random = require('random-js');
+var numOfComments = 0;
+var sloc = require('sloc');
 
 function main() {
 	var args = process.argv.slice(2);
@@ -110,7 +113,19 @@ function constraints(filePath) {
 	var buf = fs.readFileSync(filePath, "utf8");
 	var result = esprima.parse(buf, options);
 
+	// Find the number of comments in the target file.
+	for(var i=0; i<result.comments.length; i++){
+		if(result.comments[i].type == "Line")
+			numOfComments++;
+		else if(result.comments[i].type == "Block"){
+			var commentValue = result.comments[i].value;
+			numOfComments += commentValue.match(/\n/g).length;
+		}
+	}
+	console.log("Number of Comments: "+numOfComments);
+
 	traverse(result, function(node) {
+
 		if (node.type === 'FunctionDeclaration') {
 			var funcName = functionName(node);
 			//console.log("Line : {0} Function: {1}".format(node.loc.start.line, funcName ));
@@ -275,5 +290,7 @@ if (!String.prototype.format) {
 		});
 	};
 }
+
+
 
 main();
