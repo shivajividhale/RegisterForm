@@ -1,0 +1,24 @@
+{
+    "rules": {
+        "indent": [
+            1,
+            "tab"
+        ],
+        "quotes": [
+            1,
+            "single"
+        ],
+        "linebreak-style": [
+            1,
+            "windows"
+        ],
+        "semi": [
+            1,
+            "never"
+        ]
+    },
+    "env": {
+        "browser": false
+    },
+    "extends": "eslint:recommended"
+}
