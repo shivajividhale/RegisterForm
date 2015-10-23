@@ -26,7 +26,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine','jade');
 app.use(session({
     cookieName: 'session',
-    secrejast: 's1l2aesdkfmb2342jasfdahj23b4hv2j4q2v43',
+    secret: 's1l2aesdkfmb2342jasfdahj23b4hv2j4q2v43',
     duration: 30*60*1000
 }));
 //Connect to MongoDB
