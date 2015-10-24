@@ -33,21 +33,21 @@ fs.readdir(directory,function(err,files){
     var reportLines = "";
     for (x in jsFiles){
         var buf = fs.readFileSync(jsFiles[x], "utf8")
-        //console.log(buf);
         var lines = [];
         lines = buf.split("\n");
         for(j in lines){
-            //console.log(j);
             if(lines[j].indexOf("secret")> -1){
                 possibleCredentials = 1;
                 var k = parseInt(j)+1;
+                //Report possible credential
                 reportLines += "Line:"+k+" in file: "+jsFiles[x]+": "+lines[j].trim()+"\n";
-                //process.exit(1);
+
             }
             if(lines[j].toLowerCase().indexOf("key")>-1 || lines[j].toLowerCase().indexOf("token")>-1 ){
                 var words = [];
                 words = lines[j].split(" ");
                 for (i in words){
+                    //Check if any word with length greater than 50 exist between double inverted commas
                     if(words[i].length > 50 && words[i].indexOf("\"") > -1){
                         possibleCredentials = 1;
                         var k = parseInt(j)+1;
@@ -59,8 +59,11 @@ fs.readdir(directory,function(err,files){
     }
 
     if(possibleCredentials == 1){
+        //Indicates possible credential leak
+        //Error is not handled by any function. So process terminates wit code other than 0
         throw new Error("Possible credentials found at: \n"+reportLines);
     }
+    //No credential leaks found
     else
         process.exit(0);
 

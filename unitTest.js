@@ -4,6 +4,7 @@
 var expect    = require("chai").expect;
 var register = require("./app.js");
 
+//Basic unit testing functionality
 describe("Check String Length", function() {
     it("checks the lenght of the sting", function(){
         var length1 = register.checkStringLength("Abc");

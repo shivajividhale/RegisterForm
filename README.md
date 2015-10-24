@@ -34,7 +34,7 @@ ESLint has been used in order to perform a static analysis of the application (s
 We have implemented a simple extended analysis (main.js, scripts/extendedAnalysis.sh) which displays the ratio of comments to actual code. In the main.js file, we have modified the options that we pass to esprima to include comments as well. We have written simple code that counts the number of comments (single-line) or the number of lines of comments (multi-line). Our extendedAnalysis.sh script basically counts the total number of lines of code and subtracts the number of comments to display the ratio of comments to actual code.
 
 ####Analysis Gate
-In our base analysis, we had configured ESLint to recognize Mocha keywords by making changes to the '.eslintrc' file. If this configuration is not made, ESLint will throw errors whenever it encounters Mocha code. In this way, we can configure ESLint to cause the build to fail if certain conditions are not satisfied.
+In our base analysis, we used ESLint which as per the configuration file reports errors, ad if any errors exist, the build fails. Like when the eslintrc file could not recognize Mocha keywords, it threw errors and the build failed. By making changes to the '.eslintrc' file as desired, builds can be accepted successfully. Therefore, we can configure ESLint to cause the build to fail if certain conditions are not satisfied.
 
 ####Screencast: Base Analysis, Extended Analysis and Analysis Gate
 [![Analysis](http://img.youtube.com/vi/MMOrcloQWig/0.jpg)](https://www.youtube.com/watch?v=MMOrcloQWig)
