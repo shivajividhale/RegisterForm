@@ -24,12 +24,7 @@ var User = mongoose.model('User', new Schema({
 app.engine('html', require('ejs').renderFile);
 //Middleware
 app.set('view engine','jade');
-app.use(session({
-    cookieName: 'session',
-    secrejast: 's1l2aesdkfmb2342jasfdahj23b4hv2j4q2v43',
-    duration: 30*60*1000
-}));
-//Connect to MongoDB
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/',function(req, res){
@@ -99,7 +94,7 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
-//app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000);
 exports.checkStringLength = checkStringLength;
 exports.checkSpecialCharacters=checkSpecialCharacters;
 exports.validateString=validateString;

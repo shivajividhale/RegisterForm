@@ -44,6 +44,17 @@ fs.readdir(directory,function(err,files){
                 reportLines += "Line:"+k+" in file: "+jsFiles[x]+": "+lines[j].trim()+"\n";
                 //process.exit(1);
             }
+            if(lines[j].toLowerCase().indexOf("key")>-1 || lines[j].toLowerCase().indexOf("token")>-1 ){
+                var words = [];
+                words = lines[j].split(" ");
+                for (i in words){
+                    if(words[i].length > 50 && words[i].indexOf("\"") > -1){
+                        possibleCredentials = 1;
+                        var k = parseInt(j)+1;
+                        reportLines += "Line:"+k+" in file: "+jsFiles[x]+": "+lines[j].trim()+"\n";
+                    }
+                }
+            }
         }
     }
 
