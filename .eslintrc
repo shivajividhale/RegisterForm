@@ -1,11 +1,11 @@
 {
     "rules": {
         "indent": [
-            1,
+            0,
             "tab"
         ],
         "quotes": [
-            1,
+            0,
             "single"
         ],
         "linebreak-style": [

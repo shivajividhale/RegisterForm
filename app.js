@@ -7,7 +7,6 @@ var app = express();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var session = require('client-sessions');
 var error = '';
 //mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/registerForm');
 var User = mongoose.model('User', new Schema({
@@ -84,7 +83,6 @@ app.post('/register',function(req, res){
     validatePassword(user.password, user.confirmPassword);
     if(error.length > 0)
     {
-        console.log(error);
         res.render("errorRegister.jade",{message: error});
         error = "";
     }
