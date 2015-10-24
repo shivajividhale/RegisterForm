@@ -30,6 +30,7 @@
     "node-gyp": "^3.0.3",
     "random-js": "^1.0.5",
     "sendgrid": "^1.6.0",
+    "sloc": "^0.1.9",
     "underscore": "^1.7.0"
   },
   "engines": {

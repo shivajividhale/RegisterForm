@@ -10,7 +10,6 @@ var ObjectId = Schema.ObjectId;
 var session = require('client-sessions');
 var error = '';
 //mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/registerForm');
-
 var User = mongoose.model('User', new Schema({
     id: ObjectId,
     firstName: String,
@@ -94,10 +93,9 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
-app.listen(process.env.PORT || 3000);
+//app.listen(process.env.PORT || 3000);
 exports.checkStringLength = checkStringLength;
 exports.checkSpecialCharacters=checkSpecialCharacters;
 exports.validateString=validateString;
 exports.checkAge=checkAge;
 exports.validatePassword=validatePassword;
-
