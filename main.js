@@ -107,6 +107,7 @@ function generateTestCases() {
 }
 
 function constraints(filePath) {
+	//console.log(filePath);
 	var buf = fs.readFileSync(filePath, "utf8");
 	var result = esprima.parse(buf, options);
 

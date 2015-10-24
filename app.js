@@ -26,7 +26,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine','jade');
 app.use(session({
     cookieName: 'session',
-    secret: 's1l2aesdkfmb2342jasfdahj23b4hv2j4q2v43',
+    secrejast: 's1l2aesdkfmb2342jasfdahj23b4hv2j4q2v43',
     duration: 30*60*1000
 }));
 //Connect to MongoDB
@@ -99,7 +99,6 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
-//Yo change
 //app.listen(process.env.PORT || 3000);
 exports.checkStringLength = checkStringLength;
 exports.checkSpecialCharacters=checkSpecialCharacters;
