@@ -22,7 +22,7 @@ var User = mongoose.model('User', new Schema({
 app.engine('html', require('ejs').renderFile);
 //Middleware
 app.set('view engine','jade');
-
+app.set('views', __dirname + '/views');
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/',function(req, res){
@@ -91,7 +91,7 @@ app.post('/register',function(req, res){
         res.render("successRegister.jade");
     }
 });
-//app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000);
 exports.checkStringLength = checkStringLength;
 exports.checkSpecialCharacters=checkSpecialCharacters;
 exports.validateString=validateString;
